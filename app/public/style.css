@@ -1,0 +1,27 @@
+/* The Modal (background) */
+
+#title {
+    font-family: serif;
+}
+.modal {
+    display: none; 
+    /*position: fixed; */
+    /*z-index: 1; */
+    padding-top: 50px; 
+    left: 200px;
+    top: 425px;
+    width: 300px;
+    height: 200px;
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4); 
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
