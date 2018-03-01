@@ -39,11 +39,11 @@ var friends = [
 // =============================================================
 
 app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "../public/home.html"));
+  res.sendFile(path.join(__dirname, "/public/home.html"));
 });
 
 app.get("/survey", function(req, res) {
-  res.sendFile(path.join(__dirname, "../public/survey.html"))
+  res.sendFile(path.join(__dirname, "/public/survey.html"))
 })
 
 app.post("/api/findFriend", function(req, res) {
@@ -89,7 +89,7 @@ app.post("/api/findFriend", function(req, res) {
     }
 
     return res.json(friends);
-    
+
 });
 
 app.get("/api", function(req, res) {
