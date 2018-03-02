@@ -34,7 +34,7 @@ var friends = [
     routeName: "robert",
     name: "Robert",
     image: "https://vignette.wikia.nocookie.net/gameofthrones/images/b/bc/Sandor_Clegane_Season_7_Promo_Image.PNG/revision/latest/scale-to-width-down/343?cb=20170828063713",
-    scores: ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3"]
+    scores: ["4", "3", "5", "1", "3", "2", "5", "2", "1", "1"]
   },
   {
     routeName: "tyrionlannister",

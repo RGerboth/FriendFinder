@@ -7,11 +7,14 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
     <!-- <link rel="stylesheet" href="style.css"> -->
+    
     <style type="text/css">
-      .result {
-        border: 20px, blue;
+      .modal-body {
         margin: 0 auto;
         text-align: center;
       }
@@ -25,13 +28,17 @@
        <h1 id=title>Friend Finder</h1> 
        <h2 id=subTitle>Westeros Edition</h2>
     </div>
+
     <br>
+    
     <div class="row mainBody">
       <div class="col-md-12"">
         <h3 id="survey-header">Survey Questions</h3>
         <div class="panel panel-primary" id="entryFormPanel">
           <div class="panel-heading">
-            <h2 class="panel-title">About You:</h2>
+
+            <!-- new user input form -->
+            <h2 class="panel-title"><strong>About You:<strong></h2>
             <form>
               <div class="form-group">
                 <label for="exampleInputEmail1">Name (required)</label>
@@ -43,6 +50,8 @@
               </div>
             </form>
           </div>
+
+          <!-- ten quesions -->
           <div class="panel panel-body">  
               <div class="form-group col-md-12">
                 <label for="inputState" class="questionNumber">Question 1</label>
@@ -106,7 +115,7 @@
               </div>
               <div class="form-group col-md-12">
                 <label for="inputState" class="questionNumber">Question 6</label>
-                <h4 class="surveyQuestion">It is often difficult for you to relate to other peopple's feelings.</h4>
+                <h4 class="surveyQuestion">It is often difficult for you to relate to other people's feelings.</h4>
                 <select id="resQ6" class="chosen-select">
                   <option selected>Choose...</option>
                   <option value="1">1. Not at all</option>
@@ -118,7 +127,7 @@
               </div>
               <div class="form-group col-md-12">
                 <label for="inputState" class="questionNumber">Question 7</label>
-                <h4 class="surveyQuestion">In a discussion, truth should be more important than peoples's sensitivities.</h4>
+                <h4 class="surveyQuestion">In a discussion, truth should be more important than people's sensitivities.</h4>
                 <select id="resQ7" class="chosen-select">
                   <option selected>Choose...</option>
                   <option value="1">1. Not at all</option>
@@ -130,7 +139,7 @@
               </div>
               <div class="form-group col-md-12">
                 <label for="inputState" class="questionNumber">Question 8</label>
-                <h4 class="surveyQuestion">You rarely get carried awayt by fantasies and ideas.</h4>
+                <h4 class="surveyQuestion">You rarely get carried away by fantasies and ideas.</h4>
                 <select id="resQ8" class="chosen-select">
                   <option selected>Choose...</option>
                   <option value="1">1. Not at all</option>
@@ -165,28 +174,45 @@
                 </select>
               </div>
 
+              <!-- Submit Button -->
               <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="result">
-    <h2 class="newBestie" id="newBestieName"></h2>
-    <img id="newBestieImage" src="https://">
-  </div>
-  </div>
+    <!-- footer -->
     <div class="col-md-3 footer">
       <p>
         <a href="/api">API - Friends list</a>  |  
         <a href="https://github.com/rgerboth/friendfinder">GitHub</a>
       </p>
+    </div>
+
+  <!-- Modal  -->
+    <div class="modal fade" id="resultsModal" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><strong>Your New Best Friend<strong></h4>
+          </div>
+          <div class="modal-body">
+            <h2 class="newBestie" id="newBestieName"></h2>
+            <img id="newBestieImage" src="https://">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+
   
 <script type="text/javascript">
 
@@ -208,12 +234,15 @@
         return isValid;
       }
 
+      // on-click event, submit survey 
       $("#submitButton").on("click", function(event) {
       event.preventDefault();
       console.log("Submit Button Clicked")
+
          // If all required fields are filled
       if (validateForm()) {
-        // Create an object for the user"s data
+
+        // Create an object for new user data
         var findFriend = {
           name: $("#name").val().trim(),
           image: $("#pictureURL").val().trim(),
@@ -230,14 +259,15 @@
             $("#resQ10").val().trim()
           ]
         }
-        console.log(findFriend)
+
+        // post new friend and display result
         $.post("/api/findFriend", findFriend, function(data) {
           if (data) {
+
             $("#newBestieName").text(data.name);
             $("#newBestieImage").attr("src", data.image);
-          console.log(data);
-          } else {
-            $("newBestieName").text("Sorry, unlucky that.")
+
+            $("#resultsModal").modal("show");
           }
         })
       } else {
